@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dds version="4.5d">
+    <qos_library name="MyLib">
+        <qos_profile name="HigherLimit" is_default_qos="true">
+            <!-- ======================================= -->
+            <!-- Transport Configurations for Large Data -->
+            <!-- ======================================= -->
+            <participant_qos>
+                <property>
+                    <value>
+                        <element>
+                            <name>rti.monitor.library</name>
+                            <value>rtimonitoring</value>
+                        </element>
+                        <element>
+                            <name>rti.monitor.create_function</name>
+                            <value>RTIDefaultMonitor_create</value>
+                        </element>
+                        <!-- UDPv4 -->
+                        <element>
+                            <name>dds.transport.UDPv4.builtin.parent.message_size_max</name>
+                            <value>10485760</value>
+                            <propagate>false</propagate>
+                        </element>
+                        <element>
+                            <name>dds.transport.UDPv4.builtin.recv_socket_buffer_size</name>
+                            <value>10485760</value>
+                            <propagate>false</propagate>
+                        </element>
+                        <element>
+                            <name>dds.transport.UDPv4.builtin.send_socket_buffer_size</name>
+                            <value>10485760</value>
+                            <propagate>false</propagate>
+                        </element>
+                        <!-- Shared memory -->
+                        <element>
+                            <name>dds.transport.shmem.builtin.parent.message_size_max</name>
+                            <value>10485760</value>
+                            <propagate>false</propagate>
+                        </element>
+                        <element>
+                            <name>dds.transport.shmem.builtin.receive_buffer_size</name>
+                            <value>10485760</value>
+                            <propagate>false</propagate>
+                        </element>
+                        <element>
+                            <name>dds.transport.shmem.builtin.received_message_count_max</name>
+                            <value>32</value>
+                            <propagate>false</propagate>
+                        </element>
+                    </value>
+                </property>
+                <!-- monitoring types have large type code -->
+                <resource_limits>
+                    <type_code_max_serialized_length>
+                        30000
+                    </type_code_max_serialized_length>
+                </resource_limits>
+                <!-- monitoring types can have large data -->
+                <receiver_pool>
+                    <buffer_size>10485760</buffer_size>
+                </receiver_pool>
+            </participant_qos>
+            <datareader_qos>
+                <reader_resource_limits>
+                    <max_fragments_per_sample>
+                        4096
+                    </max_fragments_per_sample>
+                </reader_resource_limits>
+            </datareader_qos>
+        </qos_profile>
+    </qos_library>
+</dds>

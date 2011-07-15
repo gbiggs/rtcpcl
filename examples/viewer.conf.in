@@ -1,0 +1,7 @@
+port.ddsport.sub.verbose: NO
+port.ddsport.sub.qos_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/qos.xml
+
+conf.default.axes_scale: 1.0
+conf.default.ports: cloud:1:p:r,normals:2:n;10;0.1:r
+conf.default.show_timestamps: 0
+

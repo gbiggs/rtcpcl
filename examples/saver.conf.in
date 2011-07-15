@@ -1,0 +1,7 @@
+port.ddsport.sub.verbose: NO
+port.ddsport.sub.qos_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/qos.xml
+
+conf.default.binary: 0
+conf.default.write_once: 1
+conf.default.pcd_file: test_dump.pcd
+

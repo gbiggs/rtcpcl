@@ -1,0 +1,48 @@
+/* RTC:PCL
+ *
+ * Copyright (C) 2011
+ *     Geoffrey Biggs
+ *     RT-Synthesis Research Group
+ *     Intelligent Systems Research Institute,
+ *     National Institute of Advanced Industrial Science and Technology (AIST),
+ *     Japan
+ *     All rights reserved.
+ * Licensed under the Eclipse Public License -v 1.0 (EPL)
+ * http://www.opensource.org/licenses/eclipse-1.0.txt
+ *
+ * Source file template for launching a component in stand-alone mode.
+ */
+
+
+#include <iostream>
+#include <rtm/Manager.h>
+#include <stdlib.h>
+
+#include "@_RTC_HEADER@"
+
+void ModuleInit(RTC::Manager* manager)
+{
+    rtc_init(manager);
+    RTC::RtcBase* comp;
+    comp = manager->createComponent("@_RTC_NAME@");
+
+    if (comp == NULL)
+    {
+        std::cerr << "@_RTC_NAME@ component creation failed.\n";
+        abort();
+    }
+}
+
+
+int main(int argc, char** argv)
+{
+    RTC::Manager *manager;
+    manager = RTC::Manager::init(argc, argv);
+    manager->init(argc, argv);
+    manager->setModuleInitProc(ModuleInit);
+    manager->activateManager();
+    manager->runManager();
+
+    return 0;
+}
+

@@ -1,0 +1,3 @@
+port.ddsport.pub.verbose: NO
+port.ddsport.pub.qos_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/qos.xml
+

@@ -1,0 +1,53 @@
+set(CPACK_PACKAGE_NAME "@PROJECT_NAME@")
+set(CPACK_PACKAGE_VERSION_MAJOR "@RTC_VERSION_MAJOR@")
+set(CPACK_PACKAGE_VERSION_MINOR "@RTC_VERSION_MINOR@")
+set(CPACK_PACKAGE_VERSION_PATCH "@RTC_VERSION_PATCH@")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "@RTC_DESCRIPTION@")
+set(CPACK_PACKAGE_VENDOR "@RTC_VENDOR@")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "@PROJECT_NAME@")
+set(CPACK_PACKAGE_FILE_NAME "@PROJECT_NAME@-@RTC_VERSION@")
+set(CPACK_RESOURCE_FILE_LICENSE "@PROJECT_SOURCE_DIR@/COPYING.LESSER")
+
+set(CPACK_COMPONENTS_ALL typelib rtcpcdload rtcpcdsave rtcpclplugin
+    rtcpclviewer examples doc)
+set(CPACK_COMPONENT_TYPELIB_DISPLAY_NAME "Point cloud type")
+set(CPACK_COMPONENT_TYPELIB_DESCRIPTION
+    "Shared library containing the point cloud data type.")
+set(CPACK_COMPONENT_RTCPCDLOAD_DISPLAY_NAME "PCD file loader")
+set(CPACK_COMPONENT_RTCPCDLOAD_DESCRIPTION
+    "RT-Component for loading point clouds from PCD files.")
+set(CPACK_COMPONENT_RTCPCDLOAD_DEPENDS typelib)
+set(CPACK_COMPONENT_RTCPCDSAVE_DISPLAY_NAME "PCD file writer")
+set(CPACK_COMPONENT_RTCPCDSAVE_DESCRIPTION
+    "RT-Component for writing point clouds to PCD files.")
+set(CPACK_COMPONENT_RTCPCDSAVE_DEPENDS typelib)
+set(CPACK_COMPONENT_RTCPCLVIEWER_DISPLAY_NAME "Point cloud viewer")
+set(CPACK_COMPONENT_RTCPCLVIEWER_DESCRIPTION
+    "RT-Component for visualising point clouds.")
+set(CPACK_COMPONENT_RTCPCLVIEWER_DEPENDS typelib)
+set(CPACK_COMPONENT_RTCPCLPLUGIN_DISPLAY_NAME "Point cloud processor")
+set(CPACK_COMPONENT_RTCPCLPLUGIN_DESCRIPTION
+    "Plugin-based RT-Component for processing point clouds.")
+set(CPACK_COMPONENT_RTCPCLPLUGIN_DEPENDS typelib)
+set(CPACK_COMPONENT_EXAMPLES_DISPLAY_NAME "Examples")
+set(CPACK_COMPONENT_EXAMPLES_DESCRIPTION
+    "Example plugins for use with RTC:PCL")
+set(CPACK_COMPONENT_EXAMPLES_DEPENDS rtcpclplugin)
+set(CPACK_COMPONENT_DOC_DISPLAY_NAME "Documentation")
+set(CPACK_COMPONENT_DOC_DESCRIPTION
+    "User and developer guides.")
+
+IF (WIN32)
+    set(CPACK_NSIS_MUI_ICON "@PROJECT_SOURCE_DIR@/cmake\\rt_middleware_logo.ico")
+    set(CPACK_NSIS_MUI_UNIICON "@PROJECT_SOURCE_DIR@/cmake\\rt_middleware_logo.ico")
+    set(CPACK_PACKAGE_ICON "@PROJECT_SOURCE_DIR@/cmake\\rt_middleware_logo.bmp")
+    set(CPACK_NSIS_HELP_LINK "http://www.openrtm.org")
+    set(CPACK_NSIS_URL_INFO_ABOUT "http://www.openrtm.org")
+    set(CPACK_NSIS_MODIFY_PATH ON)
+    set(CPACK_PACKAGE_EXECUTABLES @RTC_EXECUTABLES@)
+    set(CPACK_NSIS_MENU_LINKS "share/doc/@PROJECT_NAME@/manual.pdf"
+        "User's guide (English)")
+    set(CPACK_NSIS_MENU_LINKS "share/doc/@PROJECT_NAME@/manual_jp.pdf"
+        "User's guide (Japanese)")
+ENDIF (WIN32)
+

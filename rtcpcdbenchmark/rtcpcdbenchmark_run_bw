@@ -1,0 +1,299 @@
+#!/usr/bin/env bash
+
+EXEC_RATE=100000
+
+usage()
+{
+    echo "Usage: ${0} <benchmark> [module path] [read component]"
+    echo "Available benchmarks:"
+    echo "  corba_1: CORBA transport using a single component"
+    echo "  corba_2: CORBA transport using two components"
+    echo "  corba_c: CORBA transport using two components in a composition"
+    echo "  corba_n: CORBA transport over a network (specify read component)"
+    echo "  dds_1: DDS transport using a single component"
+    echo "  dds_2: DDS transport using two components"
+    echo "  dds_c: DDS transport using two components in a composition"
+    echo "  dds_n: DDS transport over a network (specify read component)"
+}
+
+
+load_comp_mod()
+{
+    # $1 = Component module path
+    rtmgr ${MANAGER} -l ${1}librtcpcdbenchmark.so:rtc_init
+}
+
+
+start_manager()
+{
+    # $1 = Component module path
+    # Sets MANAGER_PID to the PID of the RTC manager
+    # Sets MANAGER to the location of the RTC manager
+    rtcd -d &
+    MANAGER_PID=$!
+    MANAGER=$(rtfind / -t m)
+    load_comp_mod ${1}
+}
+
+
+stop_manager()
+{
+    kill ${MANAGER_PID}
+}
+
+
+launch_comp()
+{
+    # $1 = Instance name
+    # Sets RTC_PATH to the path to the component
+    rtmgr ${MANAGER} -c RTCPCDBenchmark?instance_name=${1}\&exec_cxt.periodic.rate=${EXEC_RATE}
+    RTC_PATH=$(rtfind / -t c -i ${1} -m 2 | head -n 1)
+    rtconf ${RTC_PATH} set pcd_file /home/geoff/research/src/pcl/trunk/test/bun4.pcd
+    rtconf ${RTC_PATH} set latency 0
+    rtconf ${RTC_PATH} set bandwidth 1
+}
+
+
+stop_comp()
+{
+    # $! = Instance name
+    rtmgr ${MANAGER} -d ${1}
+}
+
+
+compose()
+{
+    # $1 = First RTC
+    # $2 = Second RTC
+    # $3 = Instance name
+    # Sets COMPOSITE_PATH to the path to the composite component
+    rtcomp ${MANAGER} -c ${1} -c ${2} -n ${3} -o \&exec_cxt.periodic.rate=${EXEC_RATE}
+    COMPOSITE_RTC=$(rtfind / -t c -i ${3} | head -n 1)
+}
+
+
+decompose()
+{
+    # $1 = Composite RTC
+    rtmgr ${MANAGER} -d ${1}
+}
+
+
+activate()
+{
+    # $1 = RTC path
+    rtact ${1}
+}
+
+
+deactivate()
+{
+    # $1 = RTC path
+    rtdeact ${1}
+}
+
+
+connect_self()
+{
+    # $1 = RTC path
+    # $2 = Port prefix
+    rtcon ${1}:${2}_in ${1}:${2}_out
+    rtconf ${1} set echo 0
+    rtconf ${1} set write 1
+    rtconf ${1} set read 1
+}
+
+
+set_corba_mode()
+{
+    # $1 = RTC path
+    rtconf ${1} set corba 1
+    rtconf ${1} set dds 0
+}
+
+
+set_dds_mode()
+{
+    # $1 = RTC path
+    rtconf ${1} set corba 0
+    rtconf ${1} set dds 1
+}
+
+
+connect_oneway()
+{
+    # $1 = Source RTC path
+    # $2 = Destination RTC path
+    # $3 = Port prefix
+    rtcon ${1}:${3}_out ${2}:${3}_in
+
+    rtconf ${1} set echo 0
+    rtconf ${1} set write 1
+    rtconf ${1} set read 0
+
+    rtconf ${2} set echo 0
+    rtconf ${2} set write 0
+    rtconf ${2} set read 1
+}
+
+
+wait_for_end()
+{
+    echo "Press any key to end data collection"
+    read -n 1 -s
+}
+
+
+if [[ $# -lt 1 ]]; then
+    usage
+    exit 1
+fi
+
+echo "Bandwidth benchmark"
+rm rtc.log 2> /dev/null
+rm echo_times.txt 2> /dev/null
+rm write_times.txt 2> /dev/null
+rm read_times.txt 2> /dev/null
+rm write_bandwidth.txt 2> /dev/null
+rm read_bandwidth.txt 2> /dev/null
+start_manager ${2}
+case "${1}" in
+    corba_1)
+        echo "CORBA transport, single component"
+        launch_comp benchmark
+        set_corba_mode ${RTC_PATH}
+        connect_self ${RTC_PATH} corba
+        activate ${RTC_PATH}
+        wait_for_end
+        deactivate ${RTC_PATH}
+        stop_comp benchmark
+        ;;
+    corba_2)
+        echo "CORBA transport, two components"
+        launch_comp benchmark_src
+        BSRC=${RTC_PATH}
+        launch_comp benchmark_dest
+        BDEST=${RTC_PATH}
+        set_corba_mode ${BSRC}
+        set_corba_mode ${BDEST}
+        connect_oneway ${BSRC} ${BDEST} corba
+        activate ${BDEST}
+        activate ${BSRC}
+        wait_for_end
+        deactivate ${BSRC}
+        deactivate ${BDEST}
+        stop_comp benchmark_src
+        stop_comp benchmark_dest
+        ;;
+    corba_c)
+        echo "CORBA transport, two components, composition"
+        launch_comp benchmark_src
+        BSRC=${RTC_PATH}
+        launch_comp benchmark_dest
+        BDEST=${RTC_PATH}
+        set_corba_mode ${BSRC}
+        set_corba_mode ${BDEST}
+        connect_oneway ${BSRC} ${BDEST} corba
+        compose ${BSRC} ${BDEST} benchmark_composite
+        activate ${COMPOSITE_RTC}
+        wait_for_end
+        deactivate ${COMPOSITE_RTC}
+        decompose benchmark_composite
+        stop_comp benchmark_src
+        stop_comp benchmark_dest
+        ;;
+    corba_n)
+        echo "CORBA transport, network"
+        if [[ $# -lt 3 ]]; then
+            usage
+            exit 1
+        fi
+        launch_comp benchmark_src
+        BSRC=${RTC_PATH}
+        BDEST=${3}
+        set_corba_mode ${BSRC}
+        set_corba_mode ${BDEST}
+        connect_oneway ${BSRC} ${BDEST} corba
+        activate ${BDEST}
+        activate ${BSRC}
+        wait_for_end
+        deactivate ${BDEST}
+        deactivate ${BSRC}
+        stop_comp benchmark_src
+        ;;
+    dds_1)
+        echo "DDS transport, single component"
+        launch_comp benchmark
+        set_dds_mode ${RTC_PATH}
+        connect_self ${RTC_PATH} dds
+        activate ${RTC_PATH}
+        wait_for_end
+        deactivate ${RTC_PATH}
+        stop_comp benchmark
+        ;;
+    dds_2)
+        echo "DDS transport, two components"
+        launch_comp benchmark_src
+        BSRC=${RTC_PATH}
+        launch_comp benchmark_dest
+        BDEST=${RTC_PATH}
+        set_dds_mode ${BSRC}
+        set_dds_mode ${BDEST}
+        connect_oneway ${BSRC} ${BDEST} dds
+        activate ${BDEST}
+        activate ${BSRC}
+        wait_for_end
+        deactivate ${BSRC}
+        deactivate ${BDEST}
+        stop_comp benchmark_src
+        stop_comp benchmark_dest
+        ;;
+    dds_c)
+        echo "DDS transport, two components, composition"
+        launch_comp benchmark_src
+        BSRC=${RTC_PATH}
+        launch_comp benchmark_dest
+        BDEST=${RTC_PATH}
+        set_dds_mode ${BSRC}
+        set_dds_mode ${BDEST}
+        connect_oneway ${BSRC} ${BDEST} dds
+        compose ${BSRC} ${BDEST} benchmark_composite
+        activate ${COMPOSITE_RTC}
+        wait_for_end
+        deactivate ${COMPOSITE_RTC}
+        decompose benchmark_composite
+        stop_comp benchmark_src
+        stop_comp benchmark_dest
+        ;;
+    dds_n)
+        echo "DDS transport, network"
+        if [[ $# -lt 3 ]]; then
+            usage
+            exit 1
+        fi
+        launch_comp benchmark_src
+        BSRC=${RTC_PATH}
+        BDEST=${3}
+        set_dds_mode ${BSRC}
+        set_dds_mode ${BDEST}
+        connect_oneway ${BSRC} ${BDEST} dds
+        activate ${BDEST}
+        activate ${BSRC}
+        wait_for_end
+        deactivate ${BDEST}
+        deactivate ${BSRC}
+        stop_comp benchmark_src
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac
+
+stop_manager
+
+PROCESSOR=$(which rtcpcdbenchmark_proc_times.py 2> /dev/null)
+if [[ "${PROCESSOR}" != "" ]]; then
+    ${PROCESSOR} -w write_times.txt -r read_times.txt
+fi
+

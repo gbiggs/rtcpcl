@@ -1,0 +1,13 @@
+naming.formats: %h.host_cxt/%n.rtc
+PCL.RTCPCLCuboid.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/cuboid.conf
+PCL.RTCPCLVoxelFilter.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/voxelfilter.conf
+PCL.RTCPCDLoad.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/loader.conf
+PCL.RTCPCDSave.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/saver.conf
+PCL.RTCPCLNormals.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/normals.conf
+PCL.RTCPCLOpenNI.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/openni.conf
+PCL.RTCPCLRainbowTube.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/rainbowtube.conf
+PCL.RTCPCLViewer.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/viewer.conf
+Test.RTCPCDBenchmark.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/benchmark.conf
+logger.enable: NO
+logger.log_level: PARANOID
+logger.file_name: rtc.log

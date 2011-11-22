@@ -5,6 +5,8 @@ PCL.RTCPCDLoad.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/
 PCL.RTCPCDSave.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/saver.conf
 PCL.RTCPCLNormals.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/normals.conf
 PCL.RTCPCLOpenNI.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/openni.conf
+PCL.RTCPCLPassthrough.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/passthrough.conf
+PCL.RTCPCLPlaneSegmentation.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/planesegmentation.conf
 PCL.RTCPCLRainbowTube.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/rainbowtube.conf
 PCL.RTCPCLViewer.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/viewer.conf
 Test.RTCPCDBenchmark.config_file: @CMAKE_INSTALL_PREFIX@/@SHARE_INSTALL_DIR@/examples/conf/benchmark.conf

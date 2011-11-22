@@ -116,6 +116,7 @@ RTC::ReturnCode_t RTCPCLViewer::onExecute(RTC::UniqueId ec_id)
     { \
         pcl::PointCloud<BOOST_PP_TUPLE_ELEM(2, 1, elem)>::ConstPtr c( \
                 get_dds_port<BOOST_PP_TUPLE_ELEM(2, 1, elem)>(clouds[0])); \
+        std::cerr << "Received " << c->size() << " points\n"; \
         draw_cloud<BOOST_PP_TUPLE_ELEM(2, 1, elem)>(c, p.type); \
     }
     /***/

@@ -1,8 +1,11 @@
-set (conf_in_files benchmark
+set (conf_in_files
+    benchmark
     cuboid
     loader
     normals
     openni
+    passthrough
+    planesegmentation
     rainbowtube
     rtc
     saver

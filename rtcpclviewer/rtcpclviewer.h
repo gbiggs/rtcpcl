@@ -114,10 +114,12 @@ namespace RTCPCL
                     ch.reset(new typename
                             pcl::visualization::PointCloudColorHandlerRandom<PointT>(
                                 c));
+                    break;
                 case PortType::Colour::CT_CUSTOM:
                     ch.reset(new typename
                             pcl::visualization::PointCloudColorHandlerCustom<PointT>(
                                 c, p.colour.r, p.colour.g, p.colour.g));
+                    break;
                 case PortType::Colour::CT_FIELD:
                     ch.reset(new typename
                             pcl::visualization::PointCloudColorHandlerGenericField<PointT>(

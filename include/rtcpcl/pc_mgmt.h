@@ -45,7 +45,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/ros/conversions.h>
-#include <pcl/ros/for_each_type.h>
+#include <pcl/for_each_type.h>
 #include <pointcloud.hh> // CORBA
 #include <string>
 

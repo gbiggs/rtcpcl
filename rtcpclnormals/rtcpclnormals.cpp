@@ -91,8 +91,8 @@ RTC::ReturnCode_t RTCPCLNormals::onActivated(RTC::UniqueId ec_id)
 
     estimator_.reset(new pcl::NormalEstimation<pcl::PointXYZRGB,
             pcl::PointXYZRGBNormal>());
-    pcl::KdTreeFLANN<pcl::PointXYZRGB>::Ptr tree(
-            new pcl::KdTreeFLANN<pcl::PointXYZRGB>());
+    pcl::search::KdTree<pcl::PointXYZRGB>::Ptr tree(
+            new pcl::search::KdTree<pcl::PointXYZRGB>());
     estimator_->setSearchMethod(tree);
     return RTC::RTC_OK;
 }
@@ -121,6 +121,7 @@ RTC::ReturnCode_t RTCPCLNormals::onExecute(RTC::UniqueId ec_id)
         process(in_cloud, out_cloud);
         pcl_to_pointcloud<pcl::PointXYZRGBNormal>(out_cloud, corba_out_);
         corba_out_port_.write();
+        std::cerr << "Wrote\n";
     }
 #if defined(DDS_SUPPORT)
     if (dds_)
@@ -160,6 +161,7 @@ void RTCPCLNormals::process(pcl::PointCloud<pcl::PointXYZRGB>::Ptr in_cloud,
         out_cloud->points[ii].z = in_cloud->points[ii].z;
         out_cloud->points[ii].rgb = in_cloud->points[ii].rgb;
     }
+    std::cerr << "Processed " << in_cloud->size() << " normals\n";
 }
 
 

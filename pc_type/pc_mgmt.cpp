@@ -26,9 +26,11 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-#include <pointcloudSupport.h>
-
 #include <rtcpcl/pc_mgmt.h>
+
+#if defined(DDS_SUPPORT)
+#include <pointcloudSupport.h>
+#endif // defined(DDS_SUPPORT)
 
 
 namespace RTCPCL

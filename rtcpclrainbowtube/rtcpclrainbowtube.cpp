@@ -131,7 +131,9 @@ RTC::ReturnCode_t RTCPCLRainbowTube::onActivated(RTC::UniqueId ec_id)
 RTC::ReturnCode_t RTCPCLRainbowTube::onDeactivated(RTC::UniqueId ec_id)
 {
     cloud_.reset();
+#if defined(DDS_SUPPORT)
     PointCloudTypes_PointCloudTypeSupport::delete_data(dds_out_);
+#endif // defined(DDS_SUPPORT)
     return RTC::RTC_OK;
 }
 

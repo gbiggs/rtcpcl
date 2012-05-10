@@ -100,7 +100,9 @@ RTC::ReturnCode_t RTCPCLCuboid::onActivated(RTC::UniqueId ec_id)
 
 RTC::ReturnCode_t RTCPCLCuboid::onDeactivated(RTC::UniqueId ec_id)
 {
+#if defined(DDS_SUPPORT)
     PointCloudTypes_PointCloudTypeSupport::delete_data(dds_out_);
+#endif // defined(DDS_SUPPORT)
     return RTC::RTC_OK;
 }
 

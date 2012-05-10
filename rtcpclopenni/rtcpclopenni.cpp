@@ -215,6 +215,7 @@ void RTCPCLOpenNI::xyzrgb_cb(pcl::PointCloud<pcl::PointXYZRGB>::ConstPtr const& 
         corba_xyzrgb_.tm.sec = ts / 1000000000;
         corba_xyzrgb_.tm.nsec = ts % 1000000000;
         corba_xyzrgb_port_.write();
+        std::cerr << "Wrote data\n";
     }
 #if defined(DDS_SUPPORT)
     if (dds_)

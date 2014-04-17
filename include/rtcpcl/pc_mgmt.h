@@ -42,6 +42,7 @@
 #include <boost/preprocessor/seq/for_each.hpp>
 #include <boost/preprocessor/stringize.hpp>
 #include <cstring>
+#include <pcl/PCLPointField.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl/ros/conversions.h>
@@ -102,28 +103,28 @@ namespace RTCPCL
             // right now
             switch(pcl::traits::datatype<PointT, Tag>::value)
             {
-                case sensor_msgs::PointField::INT8:
+                case pcl::PCLPointField::INT8:
                     fields_[cur_len].data_type = PointCloudTypes::INT8;
                     break;
-                case sensor_msgs::PointField::UINT8:
+                case pcl::PCLPointField::UINT8:
                     fields_[cur_len].data_type = PointCloudTypes::UINT8;
                     break;
-                case sensor_msgs::PointField::INT16:
+                case pcl::PCLPointField::INT16:
                     fields_[cur_len].data_type = PointCloudTypes::INT16;
                     break;
-                case sensor_msgs::PointField::UINT16:
+                case pcl::PCLPointField::UINT16:
                     fields_[cur_len].data_type = PointCloudTypes::UINT16;
                     break;
-                case sensor_msgs::PointField::INT32:
+                case pcl::PCLPointField::INT32:
                     fields_[cur_len].data_type = PointCloudTypes::INT32;
                     break;
-                case sensor_msgs::PointField::UINT32:
+                case pcl::PCLPointField::UINT32:
                     fields_[cur_len].data_type = PointCloudTypes::UINT32;
                     break;
-                case sensor_msgs::PointField::FLOAT32:
+                case pcl::PCLPointField::FLOAT32:
                     fields_[cur_len].data_type = PointCloudTypes::FLOAT32;
                     break;
-                case sensor_msgs::PointField::FLOAT64:
+                case pcl::PCLPointField::FLOAT64:
                     fields_[cur_len].data_type = PointCloudTypes::FLOAT64;
                     break;
             }
@@ -138,49 +139,49 @@ namespace RTCPCL
     {
         switch(pcl_type)
         {
-            case sensor_msgs::PointField::INT8:
+            case pcl::PCLPointField::INT8:
                 if (corba_type == PointCloudTypes::INT8)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::UINT8:
+            case pcl::PCLPointField::UINT8:
                 if (corba_type == PointCloudTypes::UINT8)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::INT16:
+            case pcl::PCLPointField::INT16:
                 if (corba_type == PointCloudTypes::INT16)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::UINT16:
+            case pcl::PCLPointField::UINT16:
                 if (corba_type == PointCloudTypes::UINT16)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::INT32:
+            case pcl::PCLPointField::INT32:
                 if (corba_type == PointCloudTypes::INT32)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::UINT32:
+            case pcl::PCLPointField::UINT32:
                 if (corba_type == PointCloudTypes::UINT32)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::FLOAT32:
+            case pcl::PCLPointField::FLOAT32:
                 if (corba_type == PointCloudTypes::FLOAT32)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::FLOAT64:
+            case pcl::PCLPointField::FLOAT64:
                 if (corba_type == PointCloudTypes::FLOAT64)
                 {
                     return true;
@@ -361,28 +362,28 @@ namespace RTCPCL
             // right now
             switch(pcl::traits::datatype<PointT, Tag>::value)
             {
-                case sensor_msgs::PointField::INT8:
+                case pcl::PCLPointField::INT8:
                     fields_[cur_len].data_type = INT8;
                     break;
-                case sensor_msgs::PointField::UINT8:
+                case pcl::PCLPointField::UINT8:
                     fields_[cur_len].data_type = UINT8;
                     break;
-                case sensor_msgs::PointField::INT16:
+                case pcl::PCLPointField::INT16:
                     fields_[cur_len].data_type = INT16;
                     break;
-                case sensor_msgs::PointField::UINT16:
+                case pcl::PCLPointField::UINT16:
                     fields_[cur_len].data_type = UINT16;
                     break;
-                case sensor_msgs::PointField::INT32:
+                case pcl::PCLPointField::INT32:
                     fields_[cur_len].data_type = INT32;
                     break;
-                case sensor_msgs::PointField::UINT32:
+                case pcl::PCLPointField::UINT32:
                     fields_[cur_len].data_type = UINT32;
                     break;
-                case sensor_msgs::PointField::FLOAT32:
+                case pcl::PCLPointField::FLOAT32:
                     fields_[cur_len].data_type = FLOAT32;
                     break;
-                case sensor_msgs::PointField::FLOAT64:
+                case pcl::PCLPointField::FLOAT64:
                     fields_[cur_len].data_type = FLOAT64;
                     break;
             }
@@ -397,49 +398,49 @@ namespace RTCPCL
     {
         switch(pcl_type)
         {
-            case sensor_msgs::PointField::INT8:
+            case pcl::PCLPointField::INT8:
                 if (dds_type == INT8)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::UINT8:
+            case pcl::PCLPointField::UINT8:
                 if (dds_type == UINT8)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::INT16:
+            case pcl::PCLPointField::INT16:
                 if (dds_type == INT16)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::UINT16:
+            case pcl::PCLPointField::UINT16:
                 if (dds_type == UINT16)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::INT32:
+            case pcl::PCLPointField::INT32:
                 if (dds_type == INT32)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::UINT32:
+            case pcl::PCLPointField::UINT32:
                 if (dds_type == UINT32)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::FLOAT32:
+            case pcl::PCLPointField::FLOAT32:
                 if (dds_type == FLOAT32)
                 {
                     return true;
                 }
                 break;
-            case sensor_msgs::PointField::FLOAT64:
+            case pcl::PCLPointField::FLOAT64:
                 if (dds_type == FLOAT64)
                 {
                     return true;

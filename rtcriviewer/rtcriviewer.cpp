@@ -113,11 +113,7 @@ RTC::ReturnCode_t RTCRIViewer::onExecute(RTC::UniqueId ec_id)
         }
     }
 #endif // defined(DDS_SUPPORT)
-    pcl::visualization::ImageWidgetWX::spinOnce();
-    if (!viewer_->isShown())
-    {
-        // Deactivate self
-    }
+    viewer_->spinOnce();
     return RTC::RTC_OK;
 }
 
@@ -130,7 +126,7 @@ void RTCRIViewer::display_range_image(
     {
         ri->setUnseenToMaxRange();
     }
-    viewer_->setRangeImage(*ri);
+    viewer_->showRangeImage(*ri);
 }
 
 

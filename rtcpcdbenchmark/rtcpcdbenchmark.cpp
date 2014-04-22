@@ -32,6 +32,9 @@
 #include <iomanip>
 #include <pcl/io/pcd_io.h>
 #include <rtcpcl/pc_mgmt.h>
+#if defined(__APPLE__)
+    #include <sys/time.h>
+#endif // defined(__APPLE__)
 
 #if defined(DDS_SUPPORT)
 #include <rtmdds/ddsportmgmt.h>

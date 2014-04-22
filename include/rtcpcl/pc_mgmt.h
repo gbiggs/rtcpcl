@@ -49,6 +49,9 @@
 #include <pcl/for_each_type.h>
 #include <pointcloud.hh> // CORBA
 #include <string>
+#if defined(__APPLE__)
+    #include <sys/time.h>
+#endif // defined(__APPLE__)
 
 #if defined(DDS_SUPPORT)
 #include <pointcloud.h> // DDS

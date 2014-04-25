@@ -51,6 +51,8 @@
 #include <string>
 #if defined(__APPLE__)
     #include <sys/time.h>
+#else
+    #include <time.h>
 #endif // defined(__APPLE__)
 
 #if defined(DDS_SUPPORT)
